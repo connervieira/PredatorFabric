@@ -1,0 +1,26 @@
+#!/usr/bin/env python3
+
+# This stand-alone script serves the purpose of cropping images to increase analysis efficiency. It uses the following structure:
+# ./crop image_file_name left right top bottom
+
+import subprocess
+import sys
+
+
+# Grab the command arguments: image_file_name left_margin right_margin top_margin bottom_margin
+img = sys.argv[1]; left = sys.argv[2]; right = sys.argv[3]; top = sys.argv[4]; bottom = sys.argv[5]
+
+# Set up the output file's name and path.
+img_base = img[:img.rfind(".")]; extension = img[img.rfind("."):]; path = img[:img.rfind("/")]
+img_out = img_base+""+extension
+
+# Get the current image's size.
+data = subprocess.check_output(["identify", img]).decode("utf-8").strip().replace(img, "")
+size = [int(n) for n in data.replace(img, "").split()[1].split("x")]
+
+# Set up the command to crop the image using ImageMagick.
+w = str(size[0]-int(left)-int(right)); h = str(size[1]-int(top)-int(bottom)); x = left; y = top
+cmd = ["convert", img, "-crop", w+"x"+h+"+"+x+"+"+y, "+repage", img_out]
+
+# Execute the crop command.
+subprocess.Popen(cmd)

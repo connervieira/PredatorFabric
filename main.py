@@ -36,6 +36,8 @@ debug_message("Importing 'time' library")
 import time # Required to add delays and handle dates/times.
 debug_message("Importing 'datetime' library")
 import datetime # Required for converting between timestamps and human readable date/time information.
+debug_message("Importing 'requests' library")
+import requests # Required for making network requests.
 debug_message("Importing 'psutil' library")
 import psutil # Required to get information regarding network interfaces.
 debug_message("Importing 're' library")
@@ -216,6 +218,7 @@ while True: # Run in a loop forever, until terminated.
     },
         "results": []
     }
+    input(alpr_results)
 
     for plate in alpr_output["results"]: # Iterate through each plate detected in the raw output.
         guesses = [] # Set the list of guesses for this plate to a blank placeholder.
@@ -242,18 +245,23 @@ while True: # Run in a loop forever, until terminated.
 
 
 
-    # ===== TODO: Upload captured image to external service, if necessary =====
+    # ===== Upload captured image to external service, if necessary =====
     if (config["network"]["remote_processing"]["mode"] == "on" or (config["network"]["remote_processing"]["mode"] == "auto" and len(alpr_results["results"]) > 0)): # Check to see if remote image processing is enabled.
         debug_message("Uploading image data")
         if (os.path.exists(image_file) == True): # Check to make sure the captured image file actually exists before attempting to upload it.
             with open(image_file, 'rb') as image_file: # Open the image file.
-                encoded_image_file = base64.b64encode(image_file.read()) # Read the image file, encoded as base 64.
+                encoded_image_file = str(base64.b64encode(image_file.read()))[2:-1] # Read the image file, encoded as base 64, and convert it to a string.
+
+            if (encoded_image_file[0:2] == "b'"): # Check to see if the string has characters indicating that it is a bytes literal.
+                encoded_image_file = encoded_image_file[2:-1] # Remove the first two characters and last single character, since they only serve to indicate that the string is a bytes literal.
+
 
             image_submission_information = {"image": encoded_image_file, "identifier": config["network"]["identifier"] } # Prepare the image information bundle.
+
             raw_image_submission_information = json.dumps(image_submission_information) # Convert the image information bundle into a string.
+
             request = requests.post(config["network"]["remote_processing"]["target"], data={"image": raw_image_submission_information}, timeout=20) # Submit the JSON string of the image information to the specified target.
 
-            print(json.dumps(r.json(), indent=2)) # Display the response. TODO: Remove after testing.
         else:
             error("The captured image could not be uploaded, since the file does not exist.")
 

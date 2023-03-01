@@ -28,3 +28,9 @@ Predator Fabric is designed to be as easy to set-up and use as possible. Anyone 
 ### Customizable
 
 While the standard configuration focuses on simiplicity, technical users can use the advanced configuration options to extensive modify, debug, and repair the platform.
+
+
+## Documentation
+
+To learn more about installing and setting up Predator Fabric, see the [DOCUMENTATION.md](DOCUMENTATION.md) document.
+To learn more about integrating Predator Fabric with external services, see the [INTEGRATION.md](INTEGRATION.md) document.

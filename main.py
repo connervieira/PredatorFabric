@@ -218,7 +218,6 @@ while True: # Run in a loop forever, until terminated.
     },
         "results": []
     }
-    input(alpr_results)
 
     for plate in alpr_output["results"]: # Iterate through each plate detected in the raw output.
         guesses = [] # Set the list of guesses for this plate to a blank placeholder.

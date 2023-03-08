@@ -9,7 +9,7 @@ Predator Fabric shares information with external services both locally and over 
 
 ### Local
 
-Predator Fabric shares information to local programs using the "interface" directory. This directory contains files that are updated as the program runs, and allows external programs to read real-time information from Predator Fabric.
+Predator Fabric shares information to local programs using the "interface" directory. This directory contains files that are updated as the program runs. These files allow external programs to read real-time information from Predator Fabric.
 
 To learn more about integrating local programs with Predator Fabric, see the [INTEGRATION_LOCAL.md](INTEGRATION_LOCAL.md) document.
 

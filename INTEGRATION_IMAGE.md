@@ -2,7 +2,7 @@
 
 This document explains how to integrate Predator Fabric with a receiver system.
 
-These instructions explain the process of handling images sent by Predator Fabric. For information regarding result receiving, see the [INTEGRATION_RESULTS.md](INTEGRATION_RESULTS.md) document.
+These instructions explain the process of handling images sent by Predator Fabric. For information regarding receiving results, see the [INTEGRATION_RESULTS.md](INTEGRATION_RESULTS.md) document.
 
 
 ## Structure

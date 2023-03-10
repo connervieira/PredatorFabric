@@ -1,6 +1,6 @@
 # Integration
 
-Predator Fabric is designed to be a network service that feeds information to another service. The information here explains how to integrate Predator Fabric with a custom service.
+Predator Fabric is designed to be a network service that feeds information to another service. The information here explains how to integrate Predator Fabric with custom services.
 
 
 ## Introduction

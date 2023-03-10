@@ -5,7 +5,7 @@ This document explains how external local programs can interface with Predator F
 
 ## Status
 
-Basic status information is shared with external programs in the form of 'heartbeats'. Each time a processing cycle is completed, a timestamp is added to the `heartbeat.json` file, located in the interface directory. Old entries in this file are trimmed after a certain threshold, as defined in the configuration. These timestamps are analogous to a real heartbeat, in that they signal to external services that Predator Fabric is alive and actively running. The frequency of heartbeats is dependent on the processing speed of the device Predator Fabric is running on, but the interval is usually less than 5 seconds, even on low-power devices.
+Basic status information is shared with external programs in the form of 'heartbeats'. Each time a processing cycle is completed, a timestamp is added to the `heartbeat.json` file, located in the interface directory. Old entries in this file are trimmed after a certain threshold, as defined in the configuration. These timestamps are analogous to a real heartbeat, in that they signal to external services that Predator Fabric is alive and actively running. The frequency of heartbeats is dependent on the processing speed of the device Predator Fabric is running on, but the interval is usually less than 5 to 10 seconds, even on low-power devices.
 
 Example file contents:
 
@@ -55,4 +55,13 @@ Example file contents:
 
 ## Errors
 
-Every time an error is encountered and displayed on screen, and identical error message is added to the `errors.json` file. This file contains a JSON dictionary, where each error message
+Every time an error is encountered and displayed on screen, and identical error message is added to the `errors.json` file. This file contains a JSON dictionary, where each error uses the time it occurred as a key. The contents of this file are not automatically cleared.
+
+Example file contents:
+
+```JSON
+{
+    "1677890942.18778": "The local ignore list file does not exist. The local ignore list is disabled.",
+    "1677890942.217734": "Invalid configuration option: ['config>developer>ignore_list>local_file']"
+}
+```

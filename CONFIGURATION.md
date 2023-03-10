@@ -17,7 +17,7 @@ This section contains settings that effect general operation.
 This section contains settings regarding image processing.
 
 - `camera` contains camera related configuration options.
-    - `provider` determines which back-end will be used to capture images. Currently, "fswebcam" and "imagesnap" are supported. Setting this value to "off" will disable image capture, for sake of debugging.
+    - `provider` determines which back-end will be used to capture images. Currently, `"fswebcam"` and `"imagesnap"` are supported. Setting this value to `"off"` will disable image capture, for sake of debugging.
     - `device` determines which camera device the camera back-end will use to capture images.
     - `resolution` determines the camera resolution that will be used to capture images. This value is only supported by FSWebcam, and will be ignored by ImageSnap.
     - `arguments` contains custom command line arguments that will be attached to the camera back-end execution command. If you want to directly customize camera operation, this allows you to do so.
@@ -38,9 +38,9 @@ This section contains settings regarding image processing.
 
 This section contains settings regarding the license plate recognition process.
 
-- `engine` determines which ALPR processing engine will be used. Currently, only "openalpr" and "phantom" are supported.
+- `engine` determines which ALPR processing engine will be used. Currently, only `"openalpr"` and `"phantom"` are supported.
 - `guesses` is an integer that defines how many guesses will be made as to the characters of each license plate.
-- `confidence` is an integer between 0 and 100 that defines the minimum confidence percentage for a guess to be considered viable. Results below this confidence level will be thrown out.
+- `confidence` is an integer between `0` and `100` that defines the minimum confidence percentage for a guess to be considered viable. Results below this confidence level will be thrown out.
 
 
 ## Network
@@ -52,7 +52,7 @@ This section contains settings that control how information will be shared with 
     - `target` defines the network address that processing information will be submitted to.
 - `remote_processing` contains settings relating to the submission of images to a remote processing service.
     - `target` is an optional value that sets a network address that encoded image information will be submitted to.
-    - `mode` specifies that mode in which remote processing information is submitted. This can be set to "off" to disable remote processing, "auto" to submit images where license plates were detected by the local processing system, or "on" to always submit captured images regardless of the local processing system results.
+    - `mode` specifies that mode in which remote processing information is submitted. This can be set to `"off"` to disable remote processing, `"auto"` to submit images where license plates were detected by the local processing system, or `"on"` to always submit captured images regardless of the local processing system results.
 
 
 ## Developer
@@ -60,12 +60,12 @@ This section contains settings that control how information will be shared with 
 This section contains settings that allow technical users to debug, repair, and modify the platform.
 
 - `debug_mode` is a boolean value that enables verbose system messages, and disables console clearing. This makes it possible to see exactly what tasks are being completed at any given moment, and how long they take to complete.
-- `working_directory` defines where active files will be stored.
-- `interface_directory` defines where files related to interacting with a front-end interface will be stored.
+- `working_directory` is a string that defines where active files will be stored.
+- `interface_directory` is a string that defines where files related to interacting with a front-end interface will be stored.
 - `print_alpr_diagnostics` is a boolean value that defines whether the ALPR engine response data will be printed to the console for debugging purposes.
 - `max_heartbeat_history` is an integer that determines how many 'pulses' will be stored in the heartbeat log before they are trimmed.
 - `max_plate_history_age` is an integer that determines how long, in seconds, outputs in the plate history will be retained before being discarded.
 - `ignore_list` contains settings regarding ignore-list functionality.
-    - `enabled` is a boolean that enables or disables custom license plate ignore lists. This is useful if you want to temporarily disable ignore lists for some reason.
+    - `enabled` is a boolean that enables or disables custom license plate ignore lists. This is useful if you want to temporarily disable custom configured ignore lists for some reason.
     - `local_file` is the name of a JSON file in the working directory that contains a list of license plates that should be ignored. This can be useful if you want to prevent common vehicles, like maintainence trucks, from being processed, to keep logs organized. This can also be a way to prevent the license plates of privacy-concerned customers from being logged.
     - `remote_sources` is a list of URLs to be used remote ignore-list sources. These are optional, but allow administrators to remotely issue ignore lists to multiple Predator instances from a central server.

@@ -10,16 +10,14 @@ While Predator is designed to be as reliable and accurate as possible, license p
 
 ## Description
 
-Automated license plate recognition (often abbreviated to ALPR) is the practice of using a camera and computer to automatically detect, process, and read vehicle license plates. Predator Fabric is a completely re-written variation of the Predator ALPR system designed to stream license plate information to an external service to automatically trigger events and actions.
-
-Unlike the traditional version of Predator, Predator Fabric is intended to be an extremely focused platform that emphasizes stability, reliablity, and ease-of-use. While vanilla Predator is a platform focused around technical users, extensibility, and tinkering, Predator Fabric strives to be a platform anyone with basic computer knowledge can use.
+Automated license plate recognition (often abbreviated to ALPR) is the practice of using a camera and computer to automatically detect, process, and read vehicle license plates. Predator Fabric is a completely re-written variation of the Predator ALPR system, designed to stream license plate information to an external service to automatically trigger events and actions.
 
 
 ## Features
 
 ### Offline
 
-All image processing and analysis can be done entirely on-device, and the results of analysis are only sent to the designated network service. This means Predator Fabric can operate without a connection to the internet.
+All image processing and analysis can be done entirely on-device, and the results of analysis are only sent to the designated network service. This means Predator Fabric can operate without a connection to the internet, and only feed information to local services, if desired.
 
 ### Easy
 

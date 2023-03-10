@@ -164,7 +164,7 @@ plate_file.close() # Close the plate log file.
 
 if (is_json(plate_file_contents) == True): # If the plate file contains valid JSON data, then load it.
     plate_log = json.loads(plate_file_contents) # Read and load the plate log from the file.
-else: # If the heartbeat file doesn't contain valid JSON data, then load a blank placeholder in it's place.
+else: # If the plate log file doesn't contain valid JSON data, then load a blank placeholder in it's place.
     plate_log = json.loads("{}") # Load a blank placeholder dictionary.
 
 

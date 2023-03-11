@@ -1,0 +1,59 @@
+{
+    "general": {
+        "name": "Predator Fabric",
+        "start_message": "",
+        "interval": 0
+    },
+    "image": {
+        "camera": {
+            "provider": "off",
+            "device": "/dev/video0",
+            "resolution": "1920x1080",
+            "arguments": "--set brightness=70%",
+            "file_name": "capture.jpg"
+        },
+        "processing": {
+            "cropping": {
+                "enabled": false,
+                "left_margin": 200,
+                "right_margin": 200,
+                "top_margin": 400,
+                "bottom_margin": 400
+            },
+            "rotation": {
+                "enabled": false,
+                "angle": 0
+            }
+        }
+    },
+    "alpr": {
+        "engine": "phantom",
+        "guesses": 10,
+        "confidence": 80
+    },
+    "network": {
+        "identifier": "abcdef123456789",
+        "results_submission": {
+            "target": "http://127.0.0.1/test_receiver.php"
+        },
+        "remote_processing": {
+            "target": "http://127.0.0.1/image_handler.php",
+            "mode": "on"
+        }
+    },
+    "developer": {
+        "debug_mode": true,
+        "working_directory": "/home/cvieira/Downloads/predator",
+        "interface_directory": "/home/cvieira/Downloads/interface",
+        "print_alpr_diagnostics": true,
+        "max_heartbeat_history": 5,
+        "max_plate_history_age": 10,
+        "ignore_list": {
+            "enabled": true,
+            "local_file": "ignore.json",
+            "remote_sources": [
+                "https://v0lttech.com/predator/ignorelist/serve.php?key=public"
+            ]
+        }
+    }
+}

@@ -22,7 +22,7 @@ Note that the dependencies for Predator and Predator Fabric are effectively iden
 1. Install Python
     - Example: `sudo apt-get install python3 python3-pip`
 2. Install the required Python libraries
-    - Example: `pip3 install psutil requests`
+    - Example: `pip3 install psutil requests validators`
 3. Install a supported ALPR engine, like [Phantom](https://v0lttech.com/phantom.php)
     - After installation, you should be able to run the executable with the `alpr` command. Otherwise, Predator Fabric will not be able to start the ALPR process.
 4. Copy the Predator Fabric directory to any accessible location on your system.

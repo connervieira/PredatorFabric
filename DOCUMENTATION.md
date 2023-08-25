@@ -51,4 +51,4 @@ Predator can also be started and managed graphically using Cortex.
 
 ## Integration
 
-Predator Fabric is not intended to operate as a stand-alone system, and instead feeds information to an external service. To learn more about integrating with external services, see the [INTEGRATION.md](INTEGRATION.md)
+Predator Fabric is not intended to operate as a stand-alone system, and instead feeds information to an external service. To learn more about integrating with external services, see the [INTEGRATION.md](INTEGRATION.md) document.

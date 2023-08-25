@@ -118,7 +118,7 @@ Below is a bare-bones example of accepting data from Predator Fabric using PHP. 
 
 ```PHP
 $received_data = strval($_POST["results"]); // Get the raw submitted results.
-$processed_data = json_decode($received_data); // Decode the JSON data received.
+$processed_data = json_decode($received_data, true); // Decode the JSON data received.
 ```
 
 ### Authentication
@@ -126,11 +126,11 @@ $processed_data = json_decode($received_data); // Decode the JSON data received.
 In order to verify that this information was sent from a known device, you should authenticate it using it's identifier. For example, your service might have a database of users, each with a list of registered keys. In this case, you might look to find a match for the identifier in the user database keys. This step also helps filter out submissions from unknown users. Below is a basic example of authentication wrriten in PHP.
 
 ```PHP
-$identifier = strval($processed_data["identifier"]); // Get the identifier from the data submission as a string.
+$identifier = strval($processed_data["info"]["identifier"]); // Get the identifier from the data submission as a string.
 
 $identifier = filter_var($identifier, FILTER_SANITIZE_STRING); // Sanitize the identifier string.
 
-if (strlen($identifier) != 32) { exit(); } // Verify that the identifier is the expected length. Otherwise, terminate the script.
+if (strlen($identifier) > 512) { exit(); } // Verify that the identifier is an expected length. Otherwise, terminate the script.
 
 $associated_user = "";
 foreach ($user_database as $username => $keys) { // Iterate through all users.

@@ -35,50 +35,62 @@ Below is an example of results received from Predator Fabric.
 
 ```json
 {
-	"info": {
-		"identifier": "abcdef123456789",
-		"timezone": ["EST", "EDT"],
+    "info": {
+        "identifier": "abcdef123456789",
+        "timezone": [
+            "EST",
+            "EDT"
+        ],
         "system": {
             "python_version": "3.10.6 final",
-            "network_interfaces": ["2C:F0:5B:74:AC:8C", "2C:F0:5B:DD:9B:55"]
+            "network_interfaces": [
+                "2C:F0:5B:74:AC:8C",
+                "2C:F0:5B:DD:9B:55"
+            ]
+        },
+        "processing": {
+            "captured_timestamp": 1675851928.664179,
+            "processing_time": 0.2290651,
+            "processed_timestamp": 1675851929.181615
+        },
+        "image": {
+            "width": 4096,
+            "height": 2304
         }
-		"processing": {
-			"captured_timestamp": 1675851928.664179,
-			"processing_time": 0.2290651,
-			"processed_timestamp": 1675851929.181615
-		},
-		"image": {
-			"width": 4096,
-			"height": 2304
-		}
-	},
-	"results": [
-		[
+    },
+    "results": [
+        [
             {
                 "plate": "ARIZONA",
                 "confidence": 89.265213
-            }, {
+            },
+            {
                 "plate": "ARIZ0NA",
                 "confidence": 87.295868
-            }, {
+            },
+            {
                 "plate": "ARIZQNA",
                 "confidence": 82.179695
-            }, {
+            },
+            {
                 "plate": "ARIZON",
                 "confidence": 81.358353
             }
         ],
-      	[
-          	{
+        [
+            {
                 "plate": "ISO8152",
                 "confidence": 93.559486
-            }, {
+            },
+            {
                 "plate": "IS08152",
                 "confidence": 86.41243
-            }, {
+            },
+            {
                 "plate": "IS08I52",
                 "confidence": 83.381683
-            }, {
+            },
+            {
                 "plate": "IS086D1",
                 "confidence": 82.626686
             }
@@ -87,11 +99,10 @@ Below is an example of results received from Predator Fabric.
             {
                 "plate": "522UXS",
                 "confidence": 87.155853
-		    }
+            }
         ]
-	]
+    ]
 }
-
 ```
 
 

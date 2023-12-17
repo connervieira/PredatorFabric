@@ -2,12 +2,13 @@
     "general": {
         "name": "Predator Fabric",
         "start_message": "",
-        "interval": 0
+        "interval": 1,
+        "mode": "discrete"
     },
     "image": {
         "camera": {
-            "provider": "off",
-            "device": "/dev/video0",
+            "provider": "fswebcam",
+            "device": ["/dev/video0"],
             "resolution": "1920x1080",
             "arguments": "--set brightness=70%",
             "file_name": "capture.jpg"
@@ -44,8 +45,8 @@
     },
     "developer": {
         "debug_mode": true,
-        "working_directory": "/home/pi/Software/Support/PredatorFabric/Working",
-        "interface_directory": "/home/pi/Software/Support/PredatorFabric/Interface",
+        "working_directory": "/home/cvieira/Software/Support/PredatorFabric/Working",
+        "interface_directory": "/home/cvieira/Software/Support/PredatorFabric/Interface",
         "print_alpr_diagnostics": true,
         "max_heartbeat_history": 5,
         "max_plate_history_age": 10,

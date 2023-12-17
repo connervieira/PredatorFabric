@@ -10,6 +10,12 @@ This section contains settings that effect general operation.
 - `name` sets the name of the platform, for branding purposes.
 - `start_message` sets a message that will be displayed when the program starts.
 - `interval` defines a fixed delay, in seconds, at the beginning of each loop.
+- `mode` is a string that can be set to either "discrete" or "stream", and determines the mode in which the ALPR system operates.
+    - In "stream" mode, Predator Fabric will stream video directly from the configured camera device through the ALPR engine.
+        - This is the newer method of ALPR, and is much faster with a much higher success rate, especially when vehicles are in motion.
+        - This method does not guarantee that the ALPR results sent to a network target will match the image sent for remote processing.
+    - In "discrete" mode, Predator Fabric will capture individual still frames from the configured camera device, and process them individually.
+        - This is the older method of ALPR, and is much slower, but it guarantee that the captured image and ALPR results sent to a remote target match.
 
 
 ## Image
@@ -19,6 +25,7 @@ This section contains settings regarding image processing.
 - `camera` contains camera related configuration options.
     - `provider` determines which back-end will be used to capture images. Currently, `"fswebcam"` and `"imagesnap"` are supported. Setting this value to `"off"` will disable image capture, for sake of debugging.
     - `device` determines which camera device the camera back-end will use to capture images.
+        - This configuration value is a list. When "discrete" mode is enabled, only the first device in this list is used. In "stream" mode, all devices in this list are used.
     - `resolution` determines the camera resolution that will be used to capture images. This value is only supported by FSWebcam, and will be ignored by ImageSnap.
     - `arguments` contains custom command line arguments that will be attached to the camera back-end execution command. If you want to directly customize camera operation, this allows you to do so.
     - `file_name` is a string that determines the file name used for the images captured by the camera back-end.

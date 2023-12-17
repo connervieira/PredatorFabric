@@ -21,7 +21,7 @@ root_directory = str(os.path.dirname(os.path.realpath(__file__))) # This variabl
 
 config = json.load(open(root_directory + "/config.json")) # Load the configuration database from config.json
 
-import utils # Import the utils.py scripts.
+import utils # Import the utils.py script.
 debug_message = utils.debug_message # Load the debug message function from the utils script.
 error = utils.error # Load the error message function from the utils script.
 heartbeat = utils.heartbeat # Load the heartbeat message function from the utils script.
@@ -42,7 +42,12 @@ debug_message("Importing 'psutil' library")
 import psutil # Required to get information regarding network interfaces.
 debug_message("Importing 're' library")
 import re # Required to handle regular expressions.
+debug_message("Importing 'base64' library")
 import base64 # Required to encode images.
+
+
+debug_message("Importing 'alprstream' library")
+import alprstream # Import the alprstream.py script.
 
 
 import ignore # Import the library to handle license plates in the ignore list.
@@ -85,6 +90,11 @@ for interface in psutil.net_if_addrs(): # Iterate through each network interface
 
 
 
+if (config["general"]["mode"] == "stream"): # Only start the ALPR stream is Predator Fabric is operating in stream mode.
+    alprstream.start_alpr_stream() # Start the ALPR stream.
+
+
+
 debug_message("Starting main loop")
 while True: # Run in a loop forever, until terminated.
 
@@ -98,95 +108,100 @@ while True: # Run in a loop forever, until terminated.
 
 
     # ===== Capture an image =====
-    debug_message("Capturing image")
-    if (config["image"]["camera"]["provider"].lower() == "fswebcam"): # Check to see if the configured camera backend is FSWebcam.
-        os.system("fswebcam --no-banner -r " + config["image"]["camera"]["resolution"] + " -d " + config["image"]["camera"]["device"] + " --jpeg 100 " + config["image"]["camera"]["arguments"] + " " + config["developer"]["working_directory"] + "/" + config["image"]["camera"]["file_name"] + " >/dev/null 2>&1") # Take a photo using FSWebcam, and save it to the working directory.
-    elif (config["image"]["camera"]["provider"].lower() == "imagesnap"): # Check to see if the configured camera backend is ImageSnap.
-        os.system("imagesnap -q -d " + config["image"]["camera"]["device"] + " " + config["image"]["camera"]["arguments"] + " " + config["developer"]["working_directory"] + "/" + config["image"]["camera"]["file_name"]) # Take a photo using ImageSnap, and save it to the working directory.
-    elif (config["image"]["camera"]["provider"] == "off"): # Check to see if the camera backend is disabled.
-        pass # Image capture is disabled, so do nothing.
-    else:
-        error("Unrecognized camera provider.")
+    if (config["general"]["mode"] == "discrete"): # Only capture an image if Predator Fabric is operating in discrete mode.
+        debug_message("Capturing image")
+        if (config["image"]["camera"]["provider"].lower() == "fswebcam"): # Check to see if the configured camera backend is FSWebcam.
+            capture_command = "fswebcam --no-banner -r " + config["image"]["camera"]["resolution"] + " -d " + config["image"]["camera"]["device"][0] + " --jpeg 100 " + config["image"]["camera"]["arguments"] + " " + config["developer"]["working_directory"] + "/" + config["image"]["camera"]["file_name"] + " >/dev/null 2>&1"
+            os.system(capture_command) # Take a photo using FSWebcam, and save it to the working directory.
+        elif (config["image"]["camera"]["provider"].lower() == "imagesnap"): # Check to see if the configured camera backend is ImageSnap.
+            capture_command = "imagesnap -q -d " + config["image"]["camera"]["device"][0] + " " + config["image"]["camera"]["arguments"] + " " + config["developer"]["working_directory"] + "/" + config["image"]["camera"]["file_name"]
+            os.system(capture_command) # Take a photo using ImageSnap, and save it to the working directory.
+        elif (config["image"]["camera"]["provider"] == "off"): # Check to see if the camera backend is disabled.
+            pass # Image capture is disabled, so do nothing.
+        else:
+            error("Unrecognized camera provider.")
 
-    image_captured_time = time.time() # Record the time that the image was captured.
-
-
-
-
-
-
-
-    image_file = config["developer"]["working_directory"] + "/" + config["image"]["camera"]["file_name"] # Get the absolute path to the image file.
-    if (os.path.exists(image_file) == True): # Check to make sure the captured image file actually exists before processing it.
-
-
-        # ===== Process the image =====
-        debug_message("Processing image")
-
-        # If necessary, rotate the image.
-        if (config["image"]["processing"]["rotation"]["enabled"] == True): # Check to see if image rotation is enabled.
-            debug_message("Rotating image")
-            os.system("convert " + image_file + " -rotate " + str(config["image"]["processing"]["rotation"]["angle"]) + " " + image_file) # Execute the command to rotate the image, based on the configuration.
-
-
-        # If enabled, crop the image.
-        if (config["image"]["processing"]["cropping"]["enabled"] == True): # Check to see if image cropping is enabled.
-            debug_message("Cropping image")
-            os.system(root_directory + "/crop " + image_file + " " + str(config["image"]["processing"]["cropping"]["left_margin"]) + " " + str(config["image"]["processing"]["cropping"]["right_margin"]) + " " + str(config["image"]["processing"]["cropping"]["top_margin"]) + " " + str(config["image"]["processing"]["cropping"]["bottom_margin"])) # Execute the command to crop the image.
+        image_captured_time = time.time() # Record the time that the image was captured.
 
 
 
 
 
-        # ===== Run ALPR on the captured image ====
-        debug_message("Running ALPR")
+    
 
-        if (config["alpr"]["engine"] == "openalpr"): # The configured ALPR engine is OpenALPR.
-            analysis_command = "alpr -j -n " + str(config["alpr"]["guesses"]) + " '" + image_file + "'" # Prepare the analysis command so it can be run in the next step.
+    if (config["general"]["mode"] == "discrete"): # If discrete mode is enabled, then run ALPR processing on the still frame captured previously.
+        image_file = config["developer"]["working_directory"] + "/" + config["image"]["camera"]["file_name"] # Get the absolute path to the image file.
+        if (os.path.exists(image_file) == True): # Check to make sure the captured image file actually exists before processing it.
 
-            raw_reading_output = str(os.popen(analysis_command).read()) # Run the OpenALPR command, and save it's raw output.
+            # ===== Process the image =====
+            debug_message("Processing image")
 
-            try: # Run the JSON interpret command inside a 'try' block, so the entire program doesn't fatally crash if the JSON data is malformed.
-                alpr_output = json.loads(raw_reading_output) # Convert the JSON string from the command output to actual JSON data that Python can manipulate.
-            except: # If the ALPR output fails to be parsed, then do the following.
-                alpr_output = json.loads('{"version":0,"data_type":"alpr_results","epoch_time":0,"img_width":0,"img_height":0,"processing_time_ms":0,"regions_of_interest":[{"x":0,"y":0,"width":0,"height":0}],"results":[]}') # Use a blank placeholder for the ALPR reading output, since the actual reading output was malformed.
+            # If necessary, rotate the image.
+            if (config["image"]["processing"]["rotation"]["enabled"] == True): # Check to see if image rotation is enabled.
+                debug_message("Rotating image")
+                os.system("convert " + image_file + " -rotate " + str(config["image"]["processing"]["rotation"]["angle"]) + " " + image_file) # Execute the command to rotate the image, based on the configuration.
 
 
-        elif (config["alpr"]["engine"] == "phantom"): # The configured ALPR engine is Phantom.
-            analysis_command = "alpr -n " + str(config["alpr"]["guesses"]) + " '" + image_file + "'" # Prepare the analysis command so it can be run in the next step.
-            raw_reading_output = str(os.popen(analysis_command).read()) # Run the Phantom ALPR command, and save it's raw output.
-
-            try: # Run the JSON interpret command inside a 'try' block, so the entire program doesn't fatally crash if the JSON data is malformed.
-                alpr_output = json.loads(raw_reading_output) # Convert the JSON string from the command output to actual JSON data that Python can manipulate.
-            except: # If the ALPR output fails to be parsed, then do the following.
-                alpr_output = json.loads('{"version":0,"data_type":"alpr_results","epoch_time":0,"img_width":0,"img_height":0,"processing_time_ms":0,"regions_of_interest":[{"x":0,"y":0,"width":0,"height":0}],"results":[]}') # Use a blank placeholder for the ALPR reading output, since the actual reading output was malformed.
+            # If enabled, crop the image.
+            if (config["image"]["processing"]["cropping"]["enabled"] == True): # Check to see if image cropping is enabled.
+                debug_message("Cropping image")
+                os.system(root_directory + "/crop " + image_file + " " + str(config["image"]["processing"]["cropping"]["left_margin"]) + " " + str(config["image"]["processing"]["cropping"]["right_margin"]) + " " + str(config["image"]["processing"]["cropping"]["top_margin"]) + " " + str(config["image"]["processing"]["cropping"]["bottom_margin"])) # Execute the command to crop the image.
 
 
 
-        else: # The configured ALPR engine is not recognized.
+            # ===== Run ALPR on the captured image ====
+            debug_message("Running ALPR")
+
+            if (config["alpr"]["engine"] == "openalpr"): # The configured ALPR engine is OpenALPR.
+                analysis_command = "alpr -j -n " + str(config["alpr"]["guesses"]) + " '" + image_file + "'" # Prepare the analysis command so it can be run in the next step.
+
+                raw_reading_output = str(os.popen(analysis_command).read()) # Run the OpenALPR command, and save it's raw output.
+
+                try: # Run the JSON interpret command inside a 'try' block, so the entire program doesn't fatally crash if the JSON data is malformed.
+                    alpr_output = json.loads(raw_reading_output) # Convert the JSON string from the command output to actual JSON data that Python can manipulate.
+                except: # If the ALPR output fails to be parsed, then do the following.
+                    alpr_output = json.loads('{"version":0,"data_type":"alpr_results","epoch_time":0,"img_width":0,"img_height":0,"processing_time_ms":0,"regions_of_interest":[{"x":0,"y":0,"width":0,"height":0}],"results":[]}') # Use a blank placeholder for the ALPR reading output, since the actual reading output was malformed.
+
+
+            elif (config["alpr"]["engine"] == "phantom"): # The configured ALPR engine is Phantom.
+                analysis_command = "alpr -n " + str(config["alpr"]["guesses"]) + " '" + image_file + "'" # Prepare the analysis command so it can be run in the next step.
+                raw_reading_output = str(os.popen(analysis_command).read()) # Run the Phantom ALPR command, and save it's raw output.
+
+                try: # Run the JSON interpret command inside a 'try' block, so the entire program doesn't fatally crash if the JSON data is malformed.
+                    alpr_output = json.loads(raw_reading_output) # Convert the JSON string from the command output to actual JSON data that Python can manipulate.
+                except: # If the ALPR output fails to be parsed, then do the following.
+                    alpr_output = json.loads('{"version":0,"data_type":"alpr_results","epoch_time":0,"img_width":0,"img_height":0,"processing_time_ms":0,"regions_of_interest":[{"x":0,"y":0,"width":0,"height":0}],"results":[]}') # Use a blank placeholder for the ALPR reading output, since the actual reading output was malformed.
+
+
+            else: # The configured ALPR engine is not recognized.
+                alpr_output = json.loads('{"version":0,"data_type":"alpr_results","epoch_time":0,"img_width":0,"img_height":0,"processing_time_ms":0,"regions_of_interest":[{"x":0,"y":0,"width":0,"height":0}],"results":[]}') # Use a blank placeholder for the ALPR reading output, since there was a problem running ALPR analysis.
+                error("The configured ALPR engine is not recognized.")
+
+
+            if (config["developer"]["print_alpr_diagnostics"] == True): # Print diagnostics if configured to do so.
+                print("Detected " + str(len(alpr_output["results"])) + " plates")
+                if (len(alpr_output["results"]) > 0):
+                    for plate in alpr_output["results"]:
+                        print(plate["plate"])
+
+
+        else: # If the captured image file does not exist, then display an error, and use placeholder data.
             alpr_output = json.loads('{"version":0,"data_type":"alpr_results","epoch_time":0,"img_width":0,"img_height":0,"processing_time_ms":0,"regions_of_interest":[{"x":0,"y":0,"width":0,"height":0}],"results":[]}') # Use a blank placeholder for the ALPR reading output, since there was a problem running ALPR analysis.
-            error("The configured ALPR engine is not recognized.")
-
-
-        if (config["developer"]["print_alpr_diagnostics"] == True):
+            error("The captured image file does not exist. There may be a problem with the camera.")
+    elif (config["general"]["mode"] == "stream"): # If stream mode is enabled, then fetch the plates from the ALPR queue.
+        alpr_output = {} # Initialize the ALPR output array.
+        alpr_output["results"] = alprstream.alpr_get_queued_plates() # Get the queued plates as the ALPR results.
+        alpr_output["processing_time_ms"] = float(config["general"]["interval"])*1000 # Use the refresh interval as a placeholder for the processing time.
+        alpr_output["img_width"] = 0 # Use a blank placeholder for the image width.
+        alpr_output["img_height"] = 0 # Use a blank placeholder for the image height.
+        image_captured_time = time.time() # Use the current time as the time that the image was captured, even though this is incorrect.
+        image_captured_time = time.time() # Use the current time as the time that the image was processed, even though this is incorrect.
+        image_file = "/dev/shm/phantom-webcam.jpg" # Set the image file path to the default Phantom transparent video still.
+        if (config["developer"]["print_alpr_diagnostics"] == True): # Print diagnostics if configured to do so.
             print("Detected " + str(len(alpr_output["results"])) + " plates")
-            print(alpr_output)
             if (len(alpr_output["results"]) > 0):
                 for plate in alpr_output["results"]:
                     print(plate["plate"])
-
-
-
-
-
-
-
-
-    else: # If the captured image file does not exist, then display an error, and use placeholder data.
-        alpr_output = json.loads('{"version":0,"data_type":"alpr_results","epoch_time":0,"img_width":0,"img_height":0,"processing_time_ms":0,"regions_of_interest":[{"x":0,"y":0,"width":0,"height":0}],"results":[]}') # Use a blank placeholder for the ALPR reading output, since there was a problem running ALPR analysis.
-        error("The captured image file does not exist. There may be a problem with the camera.")
-
-
 
 
 
@@ -262,10 +277,6 @@ while True: # Run in a loop forever, until terminated.
 
         else:
             error("The captured image could not be uploaded, since the file does not exist.")
-
-
-
-
 
 
 

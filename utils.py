@@ -55,13 +55,18 @@ class style:
 
 
 # Define the function to print debugging information when the configuration specifies to do so.
-debugging_time_record = time.time() # This value holds the time that the previous debug message was displayed.
-def debug_message(message):
+debugging_time_record = {}
+debugging_time_record["Main"] = time.time() # This value holds the time that the previous debug message in the main thread was displayed.
+debugging_time_record["ALPRStreamMaintainer"] = time.time() # This value holds the time that the previous debug message in the ALPR stream maintainer thread was displayed.
+debugging_time_record["ALPRStream"] = time.time() # This value holds the time that the previous debug message in the ALPR stream thread was displayed.
+for device in config["image"]["camera"]["device"]: # Iterate over each device in the configuration.
+    debugging_time_record["ALPRStream" + str(device)] = time.time() # Initialize each debug timer.
+def debug_message(message, thread="Main"):
     if (config["developer"]["debug_mode"] == True): # Only print the message if the debugging output configuration value is set to true.
         global debugging_time_record
-        time_since_last_message = (time.time()-debugging_time_record) # Calculate the time since the last debug message.
-        print(f"{style.italic}{style.faint}{time.time():.10f} ({time_since_last_message:.10f}) - {message}{style.end}") # Print the message.
-        debugging_time_record = time.time() # Record the current timestamp.
+        time_since_last_message = (time.time()-debugging_time_record[thread]) # Calculate the time since the last debug message.
+        print(f"{style.italic}{style.faint}{time.time():.10f} ({time_since_last_message:.10f} - {thread}) - {message}{style.end}") # Print the message.
+        debugging_time_record[thread] = time.time() # Record the current timestamp.
 
 
 
@@ -174,7 +179,7 @@ def log_plates(alpr_output):
 
     detected_plates = {} # Set the collection of detected plates to a blank dictionary.
     for plate in alpr_output["results"]: # Iterate through all of the detect plates in the ALPR results.
-        detected_plates[plate[0]["plate"]] = {} # Define this plate as it's most likely guess.
+        detected_plates[plate[0]["plate"]] = {} # Define this plate by its most likely guess.
         for guess in plate: # Iterate through all of the guesses for each detected plate in the ALPR results.
             detected_plates[plate[0]["plate"]][guess["plate"]] = guess["confidence"] # Add each guess to this plate, along with it's confidence level.
         
@@ -236,7 +241,7 @@ def verify_configuration(config):
         if ("camera" in config["image"]): # Verify that the 'processing' configuration section exists.
             if (config["image"]["camera"]["provider"] != "fswebcam" and config["image"]["camera"]["provider"] != "imagesnap" and config["image"]["camera"]["provider"] != "off"): # Verify the that the 'provider' value matches a valid option.
                 invalid_values.append("config>image>provider") # Add the 'provider' value to the list of invalid options.
-            if (type(config["image"]["camera"]["device"]) != str): # Verify the variable type of the 'camera_device' configuration value.
+            if (type(config["image"]["camera"]["device"]) != list): # Verify the variable type of the 'camera_device' configuration value.
                 invalid_values.append("config>image>camera>device") # Add the 'device' value to the list of invalid options.
             if (re.fullmatch("(\d\d\dx\d\d\d)", config["image"]["camera"]["resolution"]) == None and re.fullmatch("(\d\d\d\dx\d\d\d)", config["image"]["camera"]["resolution"]) == None and re.fullmatch("(\d\d\d\dx\d\d\d\d)", config["image"]["camera"]["resolution"]) == None): # Verify that the 'resolution' setting matches the format 000x000, 0000x000, or 0000x0000.
                 invalid_values.append("config>image>camera>resolution")

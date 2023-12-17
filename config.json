@@ -39,13 +39,13 @@
         },
         "remote_processing": {
             "target": "http://127.0.0.1/image_handler.php",
-            "mode": "on"
+            "mode": "auto"
         }
     },
     "developer": {
         "debug_mode": true,
-        "working_directory": "/home/cvieira/Downloads/predator",
-        "interface_directory": "/home/cvieira/Downloads/interface",
+        "working_directory": "/home/pi/Software/Support/PredatorFabric/Working",
+        "interface_directory": "/home/pi/Software/Support/PredatorFabric/Interface",
         "print_alpr_diagnostics": true,
         "max_heartbeat_history": 5,
         "max_plate_history_age": 10,

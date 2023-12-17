@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="992.61261mm"
+   height="866.70142mm"
+   viewBox="0 0 992.61261 866.70142"
+   version="1.1"
+   id="svg8"
+   sodipodi:docname="predatorfabriclogo.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <title
+     id="title835">Predator Fabric Logo</title>
+  <defs
+     id="defs2">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient11604">
+      <stop
+         style="stop-color:#000000;stop-opacity:1"
+         offset="0"
+         id="stop11600" />
+      <stop
+         style="stop-color:#110000;stop-opacity:1;"
+         offset="0.1356006"
+         id="stop11606" />
+      <stop
+         style="stop-color:#f60000;stop-opacity:1"
+         offset="1"
+         id="stop11602" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient10572">
+      <stop
+         style="stop-color:#000000;stop-opacity:1"
+         offset="0"
+         id="stop10568" />
+      <stop
+         style="stop-color:#f60000;stop-opacity:1"
+         offset="1"
+         id="stop10570" />
+    </linearGradient>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient11604"
+       id="radialGradient10152"
+       cx="502.96802"
+       cy="644.60309"
+       fx="502.96802"
+       fy="644.60309"
+       r="507.71899"
+       gradientTransform="matrix(1,0,0,1.11292,0,-89.310087)"
+       gradientUnits="userSpaceOnUse" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10572"
+       id="radialGradient10654"
+       cx="511.50681"
+       cy="692.97998"
+       fx="511.50681"
+       fy="692.97998"
+       r="507.8569"
+       gradientTransform="matrix(1.3156632,0,0,1.2646848,-161.46386,-206.14748)"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.16945655"
+     inkscape:cx="1372.0331"
+     inkscape:cy="1740.8592"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     inkscape:window-width="1904"
+     inkscape:window-height="995"
+     inkscape:window-x="8"
+     inkscape:window-y="40"
+     inkscape:window-maximized="0"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:pagecheckerboard="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>Predator Fabric Logo</dc:title>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Conner Vieira</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>V0LT</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/by-nc-sa/4.0/" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#Notice" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#Attribution" />
+        <cc:prohibits
+           rdf:resource="http://creativecommons.org/ns#CommercialUse" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#ShareAlike" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-16.194376,-78.009159)">
+    <path
+       sodipodi:type="star"
+       style="fill:url(#radialGradient10654);fill-opacity:1;stroke:#878787;stroke-width:54.9171;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers stroke fill"
+       id="Star"
+       sodipodi:sides="3"
+       sodipodi:cx="511.51102"
+       sodipodi:cy="648"
+       sodipodi:r1="550"
+       sodipodi:r2="150"
+       sodipodi:arg1="0.52"
+       sodipodi:arg2="1.5"
+       inkscape:flatsided="false"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="M 988.81157,921.28408 522.1216,797.62425 36.18979,924.71236 376.62733,582.37691 509.53169,98.003562 635.78413,563.99884 Z"
+       transform="matrix(0.73002587,0,0,0.7267185,138.36193,41.233926)" />
+    <path
+       sodipodi:type="star"
+       style="fill:url(#radialGradient10152);fill-opacity:1;stroke:#878787;stroke-width:54.677;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers stroke fill"
+       id="Star-4"
+       sodipodi:sides="3"
+       sodipodi:cx="511.51102"
+       sodipodi:cy="648"
+       sodipodi:r1="550"
+       sodipodi:r2="150"
+       sodipodi:arg1="0.52"
+       sodipodi:arg2="1.5"
+       inkscape:flatsided="false"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       transform="matrix(-0.73323158,0,0,-0.72990968,888.28237,981.79856)"
+       d="M 988.81157,921.28408 522.1216,797.62425 36.18979,924.71236 376.62733,582.37691 509.53169,98.003562 635.78413,563.99884 Z" />
+  </g>
+</svg>

@@ -1,6 +1,6 @@
 # Predator Fabric
 
-A completely redesigned variant of Predator designed to feed information to an external service.
+A completely redesigned variant of Predator intended to feed information to an external service.
 
 
 ## Disclaimer

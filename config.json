@@ -34,7 +34,8 @@
     "network": {
         "identifier": "abcdef123456789",
         "results_submission": {
-            "target": "http://127.0.0.1/test_receiver.php"
+            "target": "http://127.0.0.1/test_receiver.php",
+            "mode": "on"
         },
         "remote_processing": {
             "target": "http://127.0.0.1/image_handler.php",

@@ -238,7 +238,8 @@ while True: # Run in a loop forever, until terminated.
     # ===== Submit detected license plates to a network service =====
     if (len(alpr_results["results"]) > 0): # Only submit results if there were license plates detected.
         debug_message("Submitting ALPR results")
-        submit_results(alpr_results, config["network"]["results_submission"]["target"]) # Execute the function to submit data to the configured target.
+        if (config["network"]["results_submission"]["mode"] == "on" or (config["network"]["results_submission"]["mode"] == "auto" and len(alpr_results["results"]) > 0)): # Check to see if remote image processing is enabled.
+            submit_results(alpr_results, config["network"]["results_submission"]["target"]) # Execute the function to submit data to the configured target.
 
 
 

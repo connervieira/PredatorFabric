@@ -50,9 +50,10 @@ This section contains settings that control how information will be shared with 
 - `identifier` sets a unique identifier that can be used to authenticate and communicate with network services.
 - `results_submission` contains settings relating to the submission of local ALPR processing results.
     - `target` defines the network address that processing information will be submitted to.
+    - `mode` specifies the mode in which local ALPR results are submitted. This can be set to `"off"` to disable the submission of local processing results, `"auto"` to submit information only when license plates are detected by the local processing system, or `"on"` to always upload processing results.
 - `remote_processing` contains settings relating to the submission of images to a remote processing service.
     - `target` is an optional value that sets a network address that encoded image information will be submitted to.
-    - `mode` specifies that mode in which remote processing information is submitted. This can be set to `"off"` to disable remote processing, `"auto"` to submit images where license plates were detected by the local processing system, or `"on"` to always submit captured images regardless of the local processing system results.
+    - `mode` specifies the mode in which remote processing information is submitted. This can be set to `"off"` to disable remote processing, `"auto"` to submit images where license plates were detected by the local processing system, or `"on"` to always submit captured images regardless of the local processing system results.
 
 
 ## Developer

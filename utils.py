@@ -179,9 +179,10 @@ def log_plates(alpr_output):
 
     detected_plates = {} # Set the collection of detected plates to a blank dictionary.
     for plate in alpr_output["results"]: # Iterate through all of the detect plates in the ALPR results.
-        detected_plates[plate[0]["plate"]] = {} # Define this plate by its most likely guess.
-        for guess in plate: # Iterate through all of the guesses for each detected plate in the ALPR results.
-            detected_plates[plate[0]["plate"]][guess["plate"]] = guess["confidence"] # Add each guess to this plate, along with it's confidence level.
+        if (len(plate) > 0):
+            detected_plates[plate[0]["plate"]] = {} # Define this plate by its most likely guess.
+            for guess in plate: # Iterate through all of the guesses for each detected plate in the ALPR results.
+                detected_plates[plate[0]["plate"]][guess["plate"]] = guess["confidence"] # Add each guess to this plate, along with it's confidence level.
         
     plate_log[time.time()] = detected_plates
 
@@ -233,6 +234,8 @@ def verify_configuration(config):
             invalid_values.append("config>general>start_message") # Add the 'start_message' value to the list of invalid options.
         if (type(config["general"]["interval"]) != int): # Verify the variable type of the 'interval' configuration value.
             invalid_values.append("config>general>interval") # Add the 'interval' value to the list of invalid options.
+        if (config["general"]["mode"] not in ["discrete", "stream"]):
+            invalid_values.append("config>general>mode")
     else:
         invalid_values.append("config>general") # Add the 'general' section to the list of invalid options.
 
